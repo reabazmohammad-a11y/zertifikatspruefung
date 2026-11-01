@@ -73,7 +73,7 @@ export function VerificationResult({ result }: { result: Result | null }) {
         <dl className="certificate-fields">{fields.map(([label, value]) => <div className="flex flex-col gap-2" key={label}><dt className="text-sm text-muted-foreground">{label}</dt><dd className="text-base font-medium break-words">{value}</dd></div>)}</dl>
       </CardContent>
       <CardFooter>
-        <div className="flex flex-col gap-3"><p className="flex items-center gap-2 text-sm font-semibold"><Info className="size-4" aria-hidden="true" />Erläuterung</p><p className="text-sm leading-relaxed text-muted-foreground">Die Angaben stimmen mit den Ausstellungsangaben von Active Helper überein.</p></div>
+        <div className="flex flex-col gap-3"><p className="flex items-center gap-2 text-sm font-semibold"><Info className="size-4" aria-hidden="true" />Erläuterung</p><p className="text-sm leading-relaxed text-muted-foreground">Die Angaben stimmen mit den bei Active Helper gespeicherten Angaben zu dieser Bescheinigung überein.</p></div>
       </CardFooter>
     </Card>
   )
