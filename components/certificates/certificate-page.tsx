@@ -102,7 +102,7 @@ export function CertificatePage({ initialCertificateId }: { initialCertificateId
               </div>
               {result?.status === 'confirmed' && <div className="reset-row"><Button variant="outline" size="lg" onClick={reset}><RotateCcw data-icon="inline-start" aria-hidden="true" />Weitere Bescheinigung prüfen</Button></div>}
             </div>
-            <div className="verification-disclaimer"><Info className="size-4 shrink-0" aria-hidden="true" /><p>Was wird geprüft? Der Abgleich mit einem gespeicherten Datensatz. Eine nachträgliche Änderung einer PDF-Datei oder eine kryptografische Signatur wird nicht geprüft.</p></div>
+            <div className="verification-disclaimer"><Info className="size-4 shrink-0" aria-hidden="true" /><p>Geprüft wird der Abgleich mit einem gespeicherten Datensatz. Eine PDF-Datei oder elektronische Signatur wird hier nicht geprüft.</p></div>
             <details className="demo-panel">
               <summary><span className="flex items-center gap-3"><FlaskConical className="size-4 shrink-0" aria-hidden="true" /><span><strong className="font-semibold">Prototyp mit Beispieldaten</strong><span className="demo-summary-description"> · Keine echte Zertifikatsprüfung</span></span></span><span className="demo-toggle">Ausprobieren<ChevronDown className="size-4" aria-hidden="true" /></span></summary>
               <div className="demo-body">

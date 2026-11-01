@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from 'next'
-import { Montserrat } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat', display: 'swap' })
+const figtree = localFont({ src: '../public/fonts/figtree-latin.woff2', variable: '--font-figtree', weight: '400 700', display: 'swap' })
+const bricolage = localFont({ src: '../public/fonts/bricolage-grotesque-latin.woff2', variable: '--font-bricolage', weight: '400 700', display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'Zertifikate prüfen | Active Helper',
@@ -17,7 +18,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="de" className={`light bg-background ${montserrat.variable}`}>
+    <html lang="de" className={`light bg-background ${figtree.variable} ${bricolage.variable}`}>
       <body className="font-sans antialiased">{children}</body>
     </html>
   )

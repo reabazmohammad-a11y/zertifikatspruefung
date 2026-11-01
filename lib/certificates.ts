@@ -20,7 +20,7 @@ export type InputErrors = Partial<Record<keyof VerificationInput, string>>
 export const demoExamples = [
   { label: 'Bestätigte Bescheinigung', certificateId: 'AH-2026-08149', birthDate: '1992-06-05' },
   { label: 'Nicht gefunden', certificateId: 'AH-2026-00000', birthDate: '1992-06-05' },
-  { label: 'Ungültige Bescheinigung', certificateId: 'AH-2026-08150', birthDate: '1992-06-05' },
+  { label: 'Ungültiger Datensatz', certificateId: 'AH-2026-08150', birthDate: '1992-06-05' },
 ] as const
 
 const demoCertificate: Certificate = {

@@ -28,12 +28,12 @@ export function VerificationForm({ input, errors, pending, fromQr, onChange, onS
           </div>
         </div>
         <form onSubmit={onSubmit} noValidate aria-label="Bescheinigung prüfen" onKeyDown={(event) => {
-          if (event.key === 'Enter' && (event.nativeEvent.isComposing || event.keyCode === 229)) event.preventDefault()
+          if (event.key === 'Enter' && (event.target instanceof HTMLInputElement || event.nativeEvent.isComposing || event.keyCode === 229)) event.preventDefault()
         }}>
           <FieldGroup className="verification-fields">
             <Field data-invalid={Boolean(errors.certificateId)} data-disabled={pending}>
               <FieldLabel htmlFor="certificate-id">Zertifikats-ID <span className="required-mark" aria-hidden="true">*</span></FieldLabel>
-              <Input id="certificate-id" name="certificateId" placeholder="z. B. AH-2026-08149" value={input.certificateId} onChange={(event) => onChange('certificateId', event.target.value)} autoComplete="off" autoCapitalize="characters" spellCheck={false} required maxLength={80} disabled={pending} aria-invalid={Boolean(errors.certificateId)} aria-describedby={errors.certificateId ? 'certificate-id-error' : fromQr ? 'qr-note' : undefined} />
+              <Input id="certificate-id" name="certificateId" placeholder="Zertifikats-ID eingeben" value={input.certificateId} onChange={(event) => onChange('certificateId', event.target.value)} autoComplete="off" autoCapitalize="characters" spellCheck={false} required maxLength={80} disabled={pending} aria-invalid={Boolean(errors.certificateId)} aria-describedby={errors.certificateId ? 'certificate-id-error' : fromQr ? 'qr-note' : undefined} />
               {errors.certificateId && <FieldError id="certificate-id-error">{errors.certificateId}</FieldError>}
             </Field>
             <Field data-invalid={Boolean(errors.birthDate)} data-disabled={pending}>

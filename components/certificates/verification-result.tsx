@@ -12,8 +12,8 @@ export function VerificationStatus({ result }: { result: Result }) {
   return (
     <Alert className="confirmation-banner" role="status">
       <CircleCheck aria-hidden="true" />
-      <AlertTitle>Bescheinigung im Active-Helper-System bestätigt</AlertTitle>
-      <AlertDescription>Die eingegebenen Angaben stimmen mit dem hinterlegten Beispieldatensatz überein.</AlertDescription>
+      <AlertTitle><h3>Bescheinigung im Active-Helper-System bestätigt</h3></AlertTitle>
+      <AlertDescription>Die eingegebenen Angaben stimmen mit einem bei Active Helper gespeicherten Datensatz überein.</AlertDescription>
     </Alert>
   )
 }
@@ -44,14 +44,14 @@ export function VerificationResult({ result, onReset }: { result: Result | null;
     const invalid = result.status === 'invalid'
     const Icon = invalid ? ShieldX : SearchX
     return (
-      <Card className="result-card error-result">
+      <Card className="result-card error-result" data-status={result.status}>
         <CardHeader><div className="card-heading"><FileText className="size-5" aria-hidden="true" /><CardTitle><h3>Ergebnis der Prüfung</h3></CardTitle></div><CardDescription>Es werden keine Teilnehmerdaten angezeigt.</CardDescription></CardHeader>
         <CardContent>
           <div className="empty-content">
             <span className="document-icon"><Icon className="size-8" strokeWidth={1.4} aria-hidden="true" /></span>
             <div className="flex flex-col gap-3 text-center" role="status">
-              <h4 className="text-xl font-semibold text-balance">{invalid ? 'Bescheinigung ungültig' : 'Keine Bescheinigung gefunden'}</h4>
-              <p className="max-w-md text-sm leading-relaxed text-muted-foreground">{invalid ? 'Diese Bescheinigung ist im Beispieldatensatz als ungültig hinterlegt. Bei Fragen wenden Sie sich bitte an Active Helper.' : 'Zu dieser Kombination aus Zertifikats-ID und Geburtsdatum wurde keine Bescheinigung gefunden. Bitte überprüfen Sie beide Angaben.'}</p>
+              <h4 className="text-xl font-semibold text-balance">{invalid ? 'Datensatz als ungültig markiert' : 'Keine Bescheinigung gefunden'}</h4>
+              <p className="max-w-md text-sm leading-relaxed text-muted-foreground">{invalid ? 'Dieser Datensatz ist im Active-Helper-System als ungültig markiert. Bei Fragen wenden Sie sich bitte an Active Helper.' : 'Zu dieser Kombination aus Zertifikats-ID und Geburtsdatum wurde kein Datensatz gefunden. Bitte überprüfen Sie beide Angaben.'}</p>
             </div>
           </div>
         </CardContent>

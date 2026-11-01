@@ -1,12 +1,12 @@
 import Image from 'next/image'
-import { ArrowUpRight, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react'
+import { Mail, Phone, ShieldCheck } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 
 export function BrandLogo() {
   return (
     <a href="https://active-helper.de" className="brand-logo" aria-label="Active Helper – zur Website">
-      <Image src="/images/active-helper-logo.png" alt="Active Helper" width={1548} height={320} className="h-auto w-52 sm:w-60" priority />
-      <span className="brand-tagline">Erste Hilfe und Brandschutz</span>
+      <Image src="/images/active-helper-login-logo.png" alt="Active Helper – Erste Hilfe und Brandschutz" width={2000} height={490} className="h-auto w-52 sm:w-60" priority />
     </a>
   )
 }
@@ -31,23 +31,29 @@ export function SiteFooter() {
   return (
     <footer className="site-footer" id="kontakt">
       <div className="page-container">
-        <div className="footer-main">
-          <div className="flex flex-col gap-2">
-            <span className="font-semibold">Active Helper</span>
-            <p className="text-sm text-muted-foreground">Erste Hilfe und Brandschutz.</p>
-          </div>
-          <address className="flex flex-col gap-3 text-sm not-italic text-muted-foreground sm:flex-row sm:flex-wrap sm:gap-x-7">
-            <span className="flex items-start gap-2"><MapPin className="size-4 shrink-0" aria-hidden="true" /><span>Hammerbrookstraße 73<br />20097 Hamburg</span></span>
-            <a href="tel:+494022630573" className="contact-link"><Phone className="size-4" aria-hidden="true" />040 22630573</a>
-            <a href="mailto:info@active-helper.de" className="contact-link"><Mail className="size-4" aria-hidden="true" />info@active-helper.de</a>
-          </address>
-        </div>
-        <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} Active Helper</p>
-          <nav aria-label="Rechtliche Informationen" className="flex flex-wrap items-center gap-6">
-            <a href="https://active-helper.de/impressum/" target="_blank" rel="noopener noreferrer" className="contact-link">Impressum<ArrowUpRight className="size-4" aria-hidden="true" /><span className="sr-only"> (neuer Tab)</span></a>
-            <a href="https://active-helper.de/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer" className="contact-link">Datenschutz<ArrowUpRight className="size-4" aria-hidden="true" /><span className="sr-only"> (neuer Tab)</span></a>
+        <div className="footer-content">
+          <nav aria-label="Kontakt und rechtliche Informationen" className="flex flex-wrap items-center justify-center gap-5">
+            <a href="https://active-helper.de/impressum/" target="_blank" rel="noopener noreferrer" className="footer-link">Impressum<span className="sr-only"> (neuer Tab)</span></a>
+            <a href="https://active-helper.de/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer" className="footer-link">Datenschutz<span className="sr-only"> (neuer Tab)</span></a>
+            <Dialog>
+              <DialogTrigger className="footer-link">Kontakt</DialogTrigger>
+              <DialogContent className="contact-dialog">
+                <DialogHeader>
+                  <DialogTitle>Kontakt</DialogTitle>
+                  <DialogDescription>Du hast Fragen? Wir sind gerne für dich da.</DialogDescription>
+                </DialogHeader>
+                <address className="flex flex-col gap-4 not-italic">
+                  <a href="mailto:buchung@active-helper.de" className="contact-detail"><Mail className="size-5 shrink-0" aria-hidden="true" /><span className="flex min-w-0 flex-col gap-1"><span className="text-muted-foreground">E-Mail</span><span className="break-words">buchung@active-helper.de</span></span></a>
+                  <a href="tel:+494022630573" className="contact-detail"><Phone className="size-5 shrink-0" aria-hidden="true" /><span className="flex flex-col gap-1"><span className="text-muted-foreground">Telefon</span><span>040 22630573</span></span></a>
+                </address>
+                <div className="contact-hours">
+                  <p>Geschäftszeiten: Mo–Fr, 10:00–18:00 Uhr</p>
+                  <p>Bitte beachten Sie, dass unser Büro am Wochenende nicht besetzt ist. Die Kurse finden trotzdem wie geplant statt.</p>
+                </div>
+              </DialogContent>
+            </Dialog>
           </nav>
+          <p className="text-sm">© {new Date().getFullYear()} Active Helper. Alle Rechte vorbehalten.</p>
         </div>
       </div>
     </footer>
