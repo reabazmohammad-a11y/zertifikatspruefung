@@ -43,8 +43,8 @@ export function VerificationResult({ result }: { result: Result | null }) {
           <div className="empty-content">
             <span className="document-icon"><Icon className="size-8" strokeWidth={1.4} aria-hidden="true" /></span>
             <div className="flex flex-col gap-3 text-center" role="status">
-              <h4 className="text-xl font-semibold text-balance">{invalid ? 'Datensatz als ungültig markiert' : 'Keine Bescheinigung gefunden'}</h4>
-              <p className="max-w-md text-sm leading-relaxed text-muted-foreground">{invalid ? 'Dieser Datensatz ist im Active-Helper-System als ungültig markiert. Bei Fragen wenden Sie sich bitte an Active Helper.' : 'Zu dieser Kombination aus Zertifikats-ID und Geburtsdatum wurde kein Datensatz gefunden. Bitte überprüfen Sie beide Angaben.'}</p>
+              <h4 className="text-xl font-semibold text-balance">{invalid ? 'Ungültige Bescheinigung' : 'Keine Bescheinigung gefunden'}</h4>
+              <p className="max-w-md text-sm leading-relaxed text-muted-foreground">{invalid ? 'Diese Bescheinigung ist bei Active Helper als ungültig vermerkt. Bei Fragen kontaktieren Sie uns bitte.' : 'Zu dieser Kombination aus Zertifikats-ID und Geburtsdatum wurde keine Bescheinigung gefunden. Bitte überprüfen Sie beide Angaben.'}</p>
             </div>
           </div>
         </CardContent>
