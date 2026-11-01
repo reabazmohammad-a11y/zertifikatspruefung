@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Info, RotateCcw } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { validateVerificationInput, verifyCertificate, type InputErrors, type VerificationInput, type VerificationResult as Result } from '@/lib/certificates'
+import { validateVerificationInput, verifyCertificate, verifyQrPrototype, type InputErrors, type VerificationInput, type VerificationResult as Result } from '@/lib/certificates'
 import { SiteFooter, SiteHeader } from './site-chrome'
 import { IssuerCard } from './issuer-card'
 import { VerificationForm } from './verification-form'
@@ -40,7 +40,7 @@ export function CertificatePage({ initialCertificateId }: { initialCertificateId
     void runVerification(input)
   }
 
-  async function runVerification(values: VerificationInput) {
+  async function runVerification(values: VerificationInput, verify: typeof verifyCertificate = verifyCertificate) {
     if (submitLock.current) return
     const nextErrors = validateVerificationInput(values)
     setErrors(nextErrors)
@@ -53,7 +53,7 @@ export function CertificatePage({ initialCertificateId }: { initialCertificateId
     submitLock.current = true
     setPending(true)
     try {
-      setResult(await verifyCertificate(values))
+      setResult(await verify(values))
     } catch {
       setRequestError(true)
     } finally {
@@ -82,10 +82,17 @@ export function CertificatePage({ initialCertificateId }: { initialCertificateId
     void runVerification(values)
   }
 
+  function useQrExample(values: VerificationInput) {
+    if (submitLock.current) return
+    setInput(values)
+    setFromQr(false)
+    void runVerification(values, verifyQrPrototype)
+  }
+
   return (
     <div className="flex min-h-svh flex-col">
       <a href="#page-title" className="skip-link">Zum Prüfbereich springen</a>
-      <SiteHeader pending={pending} onSelectExample={useExample} resultFocusRef={resultRef} />
+      <SiteHeader pending={pending} onSelectExample={useExample} onVerifyQrExample={useQrExample} resultFocusRef={resultRef} />
       <main className="flex flex-1 flex-col">
         <VerificationForm input={input} errors={errors} pending={pending} fromQr={fromQr} onChange={changeInput} onSubmit={submit} />
         <section className="results-section" aria-labelledby="results-heading">

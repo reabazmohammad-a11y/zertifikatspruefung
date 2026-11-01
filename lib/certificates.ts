@@ -67,6 +67,11 @@ export function validateVerificationInput(input: VerificationInput): InputErrors
   return errors
 }
 
+export async function verifyQrPrototype(input: VerificationInput): Promise<VerificationResult> {
+  if (Object.keys(validateVerificationInput(input)).length || input.certificateId.trim().toUpperCase() !== demoCertificate.id) return { status: 'not-found' }
+  return { status: 'confirmed', certificate: { ...demoCertificate, birthDate: input.birthDate } }
+}
+
 // BACKEND-ANBINDUNG: Diese reine Demo-Funktion durch einen serverseitigen API-Aufruf ersetzen.
 // Dort ID UND Geburtsdatum validieren, Anfragen begrenzen und nur bei vollständiger
 // Übereinstimmung Teilnehmerdaten ausgeben. Keine personenbezogenen Daten in URLs oder Logs.

@@ -19,10 +19,11 @@ const exampleLabels = ['Bescheinigung bestätigt', 'Keine Bescheinigung gefunden
 type SiteHeaderProps = {
   pending: boolean
   onSelectExample: (input: VerificationInput) => void
+  onVerifyQrExample: (input: VerificationInput) => void
   resultFocusRef: RefObject<HTMLDivElement | null>
 }
 
-export function SiteHeader({ pending, onSelectExample, resultFocusRef }: SiteHeaderProps) {
+export function SiteHeader({ pending, onSelectExample, onVerifyQrExample, resultFocusRef }: SiteHeaderProps) {
   const [examplesOpen, setExamplesOpen] = useState(false)
   const [qrTestOpen, setQrTestOpen] = useState(false)
   const selectedExample = useRef(false)
@@ -49,7 +50,7 @@ export function SiteHeader({ pending, onSelectExample, resultFocusRef }: SiteHea
                   <QrVerificationForm onVerify={(input) => {
                     selectedExample.current = true
                     setExamplesOpen(false)
-                    onSelectExample(input)
+                    onVerifyQrExample(input)
                   }} />
                 ) : (
                   <>

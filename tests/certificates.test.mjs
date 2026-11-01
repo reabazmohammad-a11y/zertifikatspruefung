@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { demoExamples, formatIssuedAt, getCertificateId, validateVerificationInput, verifyCertificate } from '../lib/certificates.ts'
+import { demoExamples, formatIssuedAt, getCertificateId, validateVerificationInput, verifyCertificate, verifyQrPrototype } from '../lib/certificates.ts'
 
 test('Ohne Linkparameter bleibt die ID leer', () => {
   assert.equal(getCertificateId({}), '')
@@ -56,4 +56,34 @@ test('IDs werden ohne Beachtung der Großschreibung abgeglichen', async () => {
 test('Leere oder manipulierte Eingaben geben keine Daten zurück', async () => {
   assert.deepEqual(await verifyCertificate({ certificateId: '', birthDate: '' }), { status: 'not-found' })
   assert.deepEqual(await verifyCertificate({ certificateId: '<script>', birthDate: '1992-06-05' }), { status: 'not-found' })
+})
+
+test('QR-Prototyp bestätigt beliebige gültige Geburtsdaten und übernimmt sie ins Ergebnis', async () => {
+  const original = await verifyCertificate(demoExamples[0])
+  for (const birthDate of ['1900-01-01', '1985-11-23', '1992-06-05', '2000-02-29', '2004-09-17']) {
+    const result = await verifyQrPrototype({ ...demoExamples[0], birthDate })
+    assert.deepEqual(result, { status: 'confirmed', certificate: { ...original.certificate, birthDate } })
+  }
+})
+
+test('QR-Prototyp weist leere, ungültige und zukünftige Geburtsdaten weiterhin zurück', async () => {
+  for (const birthDate of ['', 'text', '1992-02-30', '1992-13-01', '2099-01-01', '1899-12-31']) {
+    assert.deepEqual(await verifyQrPrototype({ ...demoExamples[0], birthDate }), { status: 'not-found' })
+  }
+})
+
+test('QR-Prototyp verändert weder Beispieldaten noch die übrige Prüflogik', async () => {
+  const original = await verifyCertificate(demoExamples[0])
+  const examplesBefore = structuredClone(demoExamples)
+  const input = { ...demoExamples[0], birthDate: '1985-11-23' }
+  const firstQrResult = await verifyQrPrototype(input)
+  await verifyQrPrototype({ ...input, birthDate: '2000-02-29' })
+  assert.equal(firstQrResult.certificate.birthDate, input.birthDate)
+  assert.deepEqual(demoExamples, examplesBefore)
+  assert.deepEqual(await verifyCertificate(input), { status: 'not-found' })
+  assert.deepEqual(await verifyCertificate(demoExamples[0]), original)
+  assert.deepEqual(await verifyCertificate(demoExamples[1]), { status: 'not-found' })
+  assert.deepEqual(await verifyCertificate(demoExamples[2]), { status: 'invalid' })
+  assert.deepEqual(await verifyQrPrototype(demoExamples[1]), { status: 'not-found' })
+  assert.deepEqual(await verifyQrPrototype(demoExamples[2]), { status: 'not-found' })
 })
