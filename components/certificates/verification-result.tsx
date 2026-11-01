@@ -10,8 +10,8 @@ export function VerificationStatus({ result }: { result: Result }) {
   return (
     <Alert className="confirmation-banner" role="status">
       <CircleCheck aria-hidden="true" />
-      <AlertTitle><h3>Bescheinigung im Active-Helper-System bestätigt</h3></AlertTitle>
-      <AlertDescription>Die eingegebenen Angaben stimmen mit einem bei Active Helper gespeicherten Datensatz überein.</AlertDescription>
+      <AlertTitle><h3>Echtheit der Bescheinigung bestätigt</h3></AlertTitle>
+      <AlertDescription>Die Angaben stimmen mit einer von Active Helper ausgestellten Bescheinigung überein.</AlertDescription>
     </Alert>
   )
 }
@@ -70,14 +70,14 @@ export function VerificationResult({ result }: { result: Result | null }) {
   return (
     <Card className="result-card">
       <CardHeader>
-        <div className="card-heading"><FileText className="size-5" aria-hidden="true" /><CardTitle><h3>Hinterlegte Bescheinigungsdaten</h3></CardTitle></div>
-        <CardDescription>Diese Angaben sind der Bescheinigung zugeordnet.</CardDescription>
+        <div className="card-heading"><FileText className="size-5" aria-hidden="true" /><CardTitle><h3>Angaben zur Bescheinigung</h3></CardTitle></div>
+        <CardDescription>Diese Bescheinigung wurde von Active Helper ausgestellt.</CardDescription>
       </CardHeader>
       <CardContent>
         <dl className="certificate-fields">{fields.map(([label, value]) => <div className="flex flex-col gap-2" key={label}><dt className="text-sm text-muted-foreground">{label}</dt><dd className="text-base font-medium break-words">{value}</dd></div>)}</dl>
       </CardContent>
       <CardFooter>
-        <div className="flex flex-col gap-3"><p className="flex items-center gap-2 text-sm font-semibold"><Info className="size-4" aria-hidden="true" />Erläuterung</p><p className="text-sm leading-relaxed text-muted-foreground">Die hier aufgeführten Bescheinigungsdaten sind im Active-Helper-System hinterlegt. Active Helper bestätigt den Abgleich mit dem gespeicherten Datensatz.</p></div>
+        <div className="flex flex-col gap-3"><p className="flex items-center gap-2 text-sm font-semibold"><Info className="size-4" aria-hidden="true" />Erläuterung</p><p className="text-sm leading-relaxed text-muted-foreground">Die Angaben stimmen mit den Ausstellungsangaben von Active Helper überein.</p></div>
       </CardFooter>
     </Card>
   )

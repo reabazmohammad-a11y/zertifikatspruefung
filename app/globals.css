@@ -162,7 +162,6 @@
   .verify-button { grid-column: 1 / -1; margin-top: 0; justify-self: start; }
   .results-grid { grid-template-columns: minmax(0, 1fr); }
   .issuer-card [data-slot='card-content'] > div { flex-direction: row; gap: 48px; }
-  .issuer-card [data-slot='card-content'] address { gap: 13px; }
 }
 
 @media (max-width: 639px) {
@@ -179,7 +178,7 @@
   .certificate-fields { grid-template-columns: 1fr 1fr; gap: 25px 18px; }
   .certificate-fields > div:first-child { grid-column: 1 / -1; }
   .certificate-fields > div:last-child { grid-column: 1 / -1; }
-  .issuer-card [data-slot='card-content'] > div { flex-direction: column; gap: 22px; }
+  .issuer-card [data-slot='card-content'] > div { flex-direction: column; gap: 12px; }
   .confirmation-banner { padding: 18px; }
   .prototype-dialog { padding: 20px; }
 }

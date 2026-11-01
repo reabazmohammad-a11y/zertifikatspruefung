@@ -9,9 +9,9 @@ export function IssuerCard() {
         <CardDescription>Aussteller der Bescheinigung</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-3">
           <p className="text-lg font-semibold">Active Helper</p>
-          <address className="flex flex-col gap-5 text-sm not-italic leading-relaxed">
+          <address className="flex flex-col gap-2 text-sm not-italic leading-relaxed">
             <p>Hammerbrookstraße 73<br />20097 Hamburg</p>
             <a href="tel:+494022630573" className="contact-link">040 22630573</a>
             <a href="mailto:info@active-helper.de" className="contact-link">info@active-helper.de</a>
