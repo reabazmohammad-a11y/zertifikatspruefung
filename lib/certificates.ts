@@ -29,7 +29,7 @@ const demoCertificate: Certificate = {
   courseType: 'Erste-Hilfe-Ausbildung',
   courseDate: '2026-08-13',
   issuedAt: '2026-08-14T14:32:00+02:00',
-  lastName: 'Beispiel',
+  lastName: 'Müller',
   firstName: 'Lena',
   birthDate: '1992-06-05',
 }
