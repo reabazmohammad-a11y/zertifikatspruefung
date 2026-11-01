@@ -1,7 +1,6 @@
 'use client'
 
-import { CircleCheck, FileSearch, FileText, Info, RotateCcw, SearchX, ShieldCheck, ShieldX } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { CircleCheck, FileSearch, FileText, Info, SearchX, ShieldCheck, ShieldX } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { formatDate, type VerificationResult as Result } from '@/lib/certificates'
@@ -17,7 +16,7 @@ export function VerificationStatus({ result }: { result: Result }) {
   )
 }
 
-export function VerificationResult({ result, onReset }: { result: Result | null; onReset: () => void }) {
+export function VerificationResult({ result }: { result: Result | null }) {
   if (!result) {
     return (
       <Card className="result-card empty-result">
@@ -54,7 +53,6 @@ export function VerificationResult({ result, onReset }: { result: Result | null;
             </div>
           </div>
         </CardContent>
-        <CardFooter><Button variant="outline" size="lg" onClick={onReset}><RotateCcw data-icon="inline-start" />Weitere Bescheinigung prüfen</Button></CardFooter>
       </Card>
     )
   }

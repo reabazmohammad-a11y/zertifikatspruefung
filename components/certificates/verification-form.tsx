@@ -48,7 +48,6 @@ export function VerificationForm({ input, errors, pending, fromQr, onChange, onS
           </FieldGroup>
           <div className="form-notes">
             {fromQr ? <p id="qr-note" className="flex items-start gap-2"><QrCode className="size-4 shrink-0" aria-hidden="true" />ID aus dem Link übernommen. Bitte ergänzen Sie das Geburtsdatum.</p> : <p className="flex items-start gap-2"><LockKeyhole className="size-4 shrink-0" aria-hidden="true" />Zum Schutz persönlicher Daten sind beide Angaben erforderlich.</p>}
-            <span className="shrink-0">* Pflichtfelder</span>
           </div>
         </form>
       </div>

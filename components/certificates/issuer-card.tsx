@@ -1,4 +1,4 @@
-import { Building2, Mail, MapPin, Phone } from 'lucide-react'
+import { Building2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 export function IssuerCard() {
@@ -10,11 +10,11 @@ export function IssuerCard() {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-1"><p className="text-lg font-semibold">Active Helper</p><p className="text-sm text-muted-foreground">Erste Hilfe und Brandschutz</p></div>
+          <p className="text-lg font-semibold">Active Helper</p>
           <address className="flex flex-col gap-5 text-sm not-italic leading-relaxed">
-            <div className="flex items-start gap-3"><MapPin className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" /><span>Hammerbrookstraße 73<br />20097 Hamburg</span></div>
-            <a href="tel:+494022630573" className="contact-link"><Phone className="size-4 text-muted-foreground" aria-hidden="true" />040 22630573</a>
-            <a href="mailto:info@active-helper.de" className="contact-link"><Mail className="size-4 text-muted-foreground" aria-hidden="true" />info@active-helper.de</a>
+            <p>Hammerbrookstraße 73<br />20097 Hamburg</p>
+            <a href="tel:+494022630573" className="contact-link">040 22630573</a>
+            <a href="mailto:info@active-helper.de" className="contact-link">info@active-helper.de</a>
           </address>
         </div>
       </CardContent>

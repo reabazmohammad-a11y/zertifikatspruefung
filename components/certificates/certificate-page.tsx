@@ -95,12 +95,12 @@ export function CertificatePage({ initialCertificateId }: { initialCertificateId
               {result && <VerificationStatus result={result} />}
               {requestError && <Alert variant="destructive"><Info aria-hidden="true" /><AlertTitle>Prüfung derzeit nicht möglich</AlertTitle><AlertDescription>Bitte versuchen Sie es erneut oder wenden Sie sich an Active Helper.</AlertDescription></Alert>}
               <div className="results-grid">
-                <VerificationResult result={result} onReset={reset} />
+                <VerificationResult result={result} />
                 <IssuerCard />
               </div>
-              {result?.status === 'confirmed' && <div className="reset-row"><Button variant="outline" size="lg" onClick={reset}><RotateCcw data-icon="inline-start" aria-hidden="true" />Weitere Bescheinigung prüfen</Button></div>}
             </div>
             <div className="verification-disclaimer"><Info className="size-4 shrink-0" aria-hidden="true" /><p>Geprüft wird der Abgleich mit einem gespeicherten Datensatz. Eine PDF-Datei oder elektronische Signatur wird hier nicht geprüft.</p></div>
+            {result && <div className="reset-row"><Button variant="outline" size="lg" onClick={reset}><RotateCcw data-icon="inline-start" aria-hidden="true" />Weitere Bescheinigung prüfen</Button></div>}
           </div>
         </section>
       </main>

@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 export function BrandLogo() {
   return (
     <a href="https://active-helper.de" className="brand-logo" aria-label="Active Helper – zur Website">
-      <Image src="/images/active-helper-login-logo.png" alt="Active Helper – Erste Hilfe und Brandschutz" width={2000} height={490} className="h-auto w-52 sm:w-60" priority />
+      <Image src="/images/active-helper-login-logo.png" alt="Active Helper – Erste Hilfe und Brandschutz" width={2000} height={490} className="h-auto w-44 sm:w-52" priority />
     </a>
   )
 }
