@@ -25,8 +25,11 @@ export function VerificationForm({ input, errors, pending, fromQr, onChange, onS
             <h1 id="page-title" className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">Zertifikatsprüfung</h1>
             <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">Prüfen Sie, ob eine Bescheinigung bei Active Helper hinterlegt ist. Dafür benötigen Sie die Zertifikats-ID und das Geburtsdatum der teilnehmenden Person.</p>
           </div>
+          <div className="form-notes">
+            <p id="privacy-note" className="flex items-start gap-2"><LockKeyhole className="size-4 shrink-0" aria-hidden="true" />Zum Schutz persönlicher Daten sind beide Angaben erforderlich.</p>
+          </div>
         </div>
-        <form className="verification-form" onSubmit={onSubmit} noValidate aria-label="Bescheinigung prüfen" onKeyDown={(event) => {
+        <form className="verification-form" onSubmit={onSubmit} noValidate aria-label="Bescheinigung prüfen" aria-describedby="privacy-note" onKeyDown={(event) => {
           if (event.key === 'Enter' && (event.target instanceof HTMLInputElement || event.nativeEvent.isComposing || event.keyCode === 229)) event.preventDefault()
         }}>
           <FieldGroup className="verification-fields">
@@ -46,9 +49,11 @@ export function VerificationForm({ input, errors, pending, fromQr, onChange, onS
               {!pending && <ArrowRight data-icon="inline-end" aria-hidden="true" />}
             </Button>
           </FieldGroup>
-          <div className="form-notes">
-            {fromQr ? <p id="qr-note" className="flex items-start gap-2"><QrCode className="size-4 shrink-0" aria-hidden="true" />ID aus dem Link übernommen. Bitte ergänzen Sie das Geburtsdatum.</p> : <p className="flex items-start gap-2"><LockKeyhole className="size-4 shrink-0" aria-hidden="true" />Zum Schutz persönlicher Daten sind beide Angaben erforderlich.</p>}
-          </div>
+          {fromQr && (
+            <div className="form-notes">
+              <p id="qr-note" className="flex items-start gap-2"><QrCode className="size-4 shrink-0" aria-hidden="true" />ID aus dem Link übernommen. Bitte ergänzen Sie das Geburtsdatum.</p>
+            </div>
+          )}
         </form>
       </div>
     </section>
