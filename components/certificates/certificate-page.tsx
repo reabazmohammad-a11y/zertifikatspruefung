@@ -99,7 +99,6 @@ export function CertificatePage({ initialCertificateId }: { initialCertificateId
                 <IssuerCard />
               </div>
             </div>
-            <div className="verification-disclaimer"><Info className="size-4 shrink-0" aria-hidden="true" /><p>Geprüft wird der Abgleich mit einem gespeicherten Datensatz. Eine PDF-Datei oder elektronische Signatur wird hier nicht geprüft.</p></div>
             {result && <div className="reset-row"><Button variant="outline" size="lg" onClick={reset}><RotateCcw data-icon="inline-start" aria-hidden="true" />Weitere Bescheinigung prüfen</Button></div>}
           </div>
         </section>

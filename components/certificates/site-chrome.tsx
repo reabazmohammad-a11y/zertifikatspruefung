@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { ArrowRight, Mail, Phone, ShieldCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { demoExamples, type VerificationInput } from '@/lib/certificates'
+import { QrVerificationForm } from './qr-verification-form'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 
 export function BrandLogo() {
@@ -23,6 +24,7 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ pending, onSelectExample, resultFocusRef }: SiteHeaderProps) {
   const [examplesOpen, setExamplesOpen] = useState(false)
+  const [qrTestOpen, setQrTestOpen] = useState(false)
   const selectedExample = useRef(false)
 
   return (
@@ -33,29 +35,46 @@ export function SiteHeader({ pending, onSelectExample, resultFocusRef }: SiteHea
           <div className="flex items-center gap-4">
             <span className="hidden items-center gap-2 text-sm text-muted-foreground md:flex"><ShieldCheck className="size-4" aria-hidden="true" /> Zertifikatsprüfung</span>
             <Dialog open={examplesOpen} onOpenChange={(open) => {
-              if (open) selectedExample.current = false
+              if (open) {
+                selectedExample.current = false
+                setQrTestOpen(false)
+              }
               setExamplesOpen(open)
             }} onOpenChangeComplete={(open) => {
               if (!open && selectedExample.current) resultFocusRef.current?.focus({ preventScroll: true })
             }}>
               <DialogTrigger disabled={pending} render={<Button variant="outline" className="rounded-full" />}>Prototyp</DialogTrigger>
               <DialogContent className="prototype-dialog" finalFocus={() => !selectedExample.current}>
-                <DialogHeader>
-                  <DialogTitle>Testdatensatz auswählen</DialogTitle>
-                  <DialogDescription>Übernimmt fiktive Testdaten und zeigt das zugehörige Prüfergebnis direkt an.</DialogDescription>
-                </DialogHeader>
-                <div className="flex flex-col gap-2">
-                  {demoExamples.map((example, index) => (
-                    <Button key={example.certificateId} variant="outline" size="lg" className="h-auto min-h-12 justify-between whitespace-normal text-left" disabled={pending} onClick={() => {
-                      selectedExample.current = true
-                      setExamplesOpen(false)
-                      onSelectExample(example)
-                    }}>
-                      <span>{exampleLabels[index]}</span>
-                      <ArrowRight data-icon="inline-end" aria-hidden="true" />
-                    </Button>
-                  ))}
-                </div>
+                {qrTestOpen ? (
+                  <QrVerificationForm onVerify={(input) => {
+                    selectedExample.current = true
+                    setExamplesOpen(false)
+                    onSelectExample(input)
+                  }} />
+                ) : (
+                  <>
+                    <DialogHeader>
+                      <DialogTitle>Testdatensatz auswählen</DialogTitle>
+                      <DialogDescription>Übernimmt fiktive Testdaten und zeigt das zugehörige Prüfergebnis direkt an.</DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-col gap-2">
+                      {demoExamples.map((example, index) => (
+                        <Button key={example.certificateId} variant="outline" size="lg" className="h-auto min-h-12 justify-between whitespace-normal text-left" disabled={pending} onClick={() => {
+                          selectedExample.current = true
+                          setExamplesOpen(false)
+                          onSelectExample(example)
+                        }}>
+                          <span>{exampleLabels[index]}</span>
+                          <ArrowRight data-icon="inline-end" aria-hidden="true" />
+                        </Button>
+                      ))}
+                      <Button variant="outline" size="lg" className="h-auto min-h-12 justify-between whitespace-normal text-left" disabled={pending} onClick={() => setQrTestOpen(true)}>
+                        <span>QR-Code-Aufruf testen</span>
+                        <ArrowRight data-icon="inline-end" aria-hidden="true" />
+                      </Button>
+                    </div>
+                  </>
+                )}
               </DialogContent>
             </Dialog>
           </div>
