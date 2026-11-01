@@ -6,8 +6,8 @@ const figtree = localFont({ src: '../public/fonts/figtree-latin.woff2', variable
 const bricolage = localFont({ src: '../public/fonts/bricolage-grotesque-latin.woff2', variable: '--font-bricolage', weight: '400 700', display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'Zertifikate prüfen | Active Helper',
-  description: 'Prüfen Sie Bescheinigungsdaten mit Zertifikats-ID und Geburtsdatum. Active-Helper-Prototyp mit ausschließlich fiktiven Beispieldaten.',
+  title: 'Zertifikatsprüfung | Active Helper',
+  description: 'Prüfen Sie, ob eine Bescheinigung bei Active Helper hinterlegt ist. Dafür benötigen Sie die Zertifikats-ID und das Geburtsdatum der teilnehmenden Person.',
   robots: { index: false, follow: false },
 }
 

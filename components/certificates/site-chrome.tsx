@@ -1,6 +1,8 @@
+import { useRef, useState, type RefObject } from 'react'
 import Image from 'next/image'
-import { Mail, Phone, ShieldCheck } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
+import { ArrowRight, Mail, Phone, ShieldCheck } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { demoExamples, type VerificationInput } from '@/lib/certificates'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 
 export function BrandLogo() {
@@ -11,15 +13,51 @@ export function BrandLogo() {
   )
 }
 
-export function SiteHeader() {
+const exampleLabels = ['Bescheinigung bestätigt', 'Keine Bescheinigung gefunden', 'Datensatz als ungültig markiert']
+
+type SiteHeaderProps = {
+  pending: boolean
+  onSelectExample: (input: VerificationInput) => void
+  resultFocusRef: RefObject<HTMLDivElement | null>
+}
+
+export function SiteHeader({ pending, onSelectExample, resultFocusRef }: SiteHeaderProps) {
+  const [examplesOpen, setExamplesOpen] = useState(false)
+  const selectedExample = useRef(false)
+
   return (
     <header className="site-header">
       <div className="page-container">
         <div className="flex items-center justify-between gap-4">
           <BrandLogo />
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
             <span className="hidden items-center gap-2 text-sm text-muted-foreground md:flex"><ShieldCheck className="size-4" aria-hidden="true" /> Zertifikatsprüfung</span>
-            <Badge variant="outline">Prototyp</Badge>
+            <Dialog open={examplesOpen} onOpenChange={(open) => {
+              if (open) selectedExample.current = false
+              setExamplesOpen(open)
+            }} onOpenChangeComplete={(open) => {
+              if (!open && selectedExample.current) resultFocusRef.current?.focus({ preventScroll: true })
+            }}>
+              <DialogTrigger disabled={pending} render={<Button variant="outline" className="rounded-full" />}>Prototyp</DialogTrigger>
+              <DialogContent className="prototype-dialog" finalFocus={() => !selectedExample.current}>
+                <DialogHeader>
+                  <DialogTitle>Testdatensatz auswählen</DialogTitle>
+                  <DialogDescription>Übernimmt fiktive Testdaten und zeigt das zugehörige Prüfergebnis direkt an.</DialogDescription>
+                </DialogHeader>
+                <div className="flex flex-col gap-2">
+                  {demoExamples.map((example, index) => (
+                    <Button key={example.certificateId} variant="outline" size="lg" className="h-auto min-h-12 justify-between whitespace-normal text-left" disabled={pending} onClick={() => {
+                      selectedExample.current = true
+                      setExamplesOpen(false)
+                      onSelectExample(example)
+                    }}>
+                      <span>{exampleLabels[index]}</span>
+                      <ArrowRight data-icon="inline-end" aria-hidden="true" />
+                    </Button>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
@@ -33,8 +71,6 @@ export function SiteFooter() {
       <div className="page-container">
         <div className="footer-content">
           <nav aria-label="Kontakt und rechtliche Informationen" className="flex flex-wrap items-center justify-center gap-5">
-            <a href="https://active-helper.de/impressum/" target="_blank" rel="noopener noreferrer" className="footer-link">Impressum<span className="sr-only"> (neuer Tab)</span></a>
-            <a href="https://active-helper.de/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer" className="footer-link">Datenschutz<span className="sr-only"> (neuer Tab)</span></a>
             <Dialog>
               <DialogTrigger className="footer-link">Kontakt</DialogTrigger>
               <DialogContent className="contact-dialog">
@@ -52,6 +88,8 @@ export function SiteFooter() {
                 </div>
               </DialogContent>
             </Dialog>
+            <a href="https://active-helper.de/impressum/" target="_blank" rel="noopener noreferrer" className="footer-link">Impressum<span className="sr-only"> (neuer Tab)</span></a>
+            <a href="https://active-helper.de/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer" className="footer-link">Datenschutz<span className="sr-only"> (neuer Tab)</span></a>
           </nav>
           <p className="text-sm">© {new Date().getFullYear()} Active Helper. Alle Rechte vorbehalten.</p>
         </div>

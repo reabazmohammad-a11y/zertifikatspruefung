@@ -1,7 +1,6 @@
 'use client'
 
 import { CircleCheck, FileSearch, FileText, Info, RotateCcw, SearchX, ShieldCheck, ShieldX } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -73,14 +72,14 @@ export function VerificationResult({ result, onReset }: { result: Result | null;
   return (
     <Card className="result-card">
       <CardHeader>
-        <div className="flex flex-wrap items-center justify-between gap-3"><div className="card-heading"><FileText className="size-5" aria-hidden="true" /><CardTitle><h3>Hinterlegte Bescheinigungsdaten</h3></CardTitle></div><Badge variant="secondary">Beispieldaten</Badge></div>
+        <div className="card-heading"><FileText className="size-5" aria-hidden="true" /><CardTitle><h3>Hinterlegte Bescheinigungsdaten</h3></CardTitle></div>
         <CardDescription>Diese Angaben sind der Bescheinigung zugeordnet.</CardDescription>
       </CardHeader>
       <CardContent>
         <dl className="certificate-fields">{fields.map(([label, value]) => <div className="flex flex-col gap-2" key={label}><dt className="text-sm text-muted-foreground">{label}</dt><dd className="text-base font-medium break-words">{value}</dd></div>)}</dl>
       </CardContent>
       <CardFooter>
-        <div className="flex flex-col gap-3"><p className="flex items-center gap-2 text-sm font-semibold"><Info className="size-4" aria-hidden="true" />Erläuterung</p><p className="text-sm leading-relaxed text-muted-foreground">Die hier aufgeführten Bescheinigungsdaten sind im Active-Helper-System hinterlegt. Active Helper bestätigt den Abgleich mit dem gespeicherten Datensatz.</p><p className="text-sm leading-relaxed text-muted-foreground">In diesem Prototyp wird der Abgleich ausschließlich mit fiktiven Beispieldaten demonstriert.</p></div>
+        <div className="flex flex-col gap-3"><p className="flex items-center gap-2 text-sm font-semibold"><Info className="size-4" aria-hidden="true" />Erläuterung</p><p className="text-sm leading-relaxed text-muted-foreground">Die hier aufgeführten Bescheinigungsdaten sind im Active-Helper-System hinterlegt. Active Helper bestätigt den Abgleich mit dem gespeicherten Datensatz.</p></div>
       </CardFooter>
     </Card>
   )

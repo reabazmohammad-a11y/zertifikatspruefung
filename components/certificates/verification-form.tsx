@@ -21,13 +21,12 @@ export function VerificationForm({ input, errors, pending, fromQr, onChange, onS
     <section className="verification-band" aria-labelledby="page-title">
       <div className="page-container">
         <div className="verification-intro">
-          <div className="flex flex-col gap-3">
-            <p className="eyebrow">Digitale Bescheinigungen</p>
-            <h1 id="page-title" className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">Zertifikate prüfen</h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">Prüfen Sie, ob eine Bescheinigung bei Active Helper hinterlegt ist.<br className="hidden sm:block" /> Sie benötigen die Zertifikats-ID und das Geburtsdatum der teilnehmenden Person.</p>
+          <div className="flex flex-col gap-2">
+            <h1 id="page-title" className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">Zertifikatsprüfung</h1>
+            <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">Prüfen Sie, ob eine Bescheinigung bei Active Helper hinterlegt ist. Dafür benötigen Sie die Zertifikats-ID und das Geburtsdatum der teilnehmenden Person.</p>
           </div>
         </div>
-        <form onSubmit={onSubmit} noValidate aria-label="Bescheinigung prüfen" onKeyDown={(event) => {
+        <form className="verification-form" onSubmit={onSubmit} noValidate aria-label="Bescheinigung prüfen" onKeyDown={(event) => {
           if (event.key === 'Enter' && (event.target instanceof HTMLInputElement || event.nativeEvent.isComposing || event.keyCode === 229)) event.preventDefault()
         }}>
           <FieldGroup className="verification-fields">
