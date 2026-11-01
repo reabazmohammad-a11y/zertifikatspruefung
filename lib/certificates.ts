@@ -4,6 +4,7 @@ export type Certificate = {
   id: string
   courseType: string
   courseDate: string
+  issuedAt: string
   lastName: string
   firstName: string
   birthDate: string
@@ -27,6 +28,7 @@ const demoCertificate: Certificate = {
   id: 'AH-2026-08149',
   courseType: 'Erste-Hilfe-Ausbildung',
   courseDate: '2026-08-13',
+  issuedAt: '2026-08-14T14:32:00+02:00',
   lastName: 'Beispiel',
   firstName: 'Lena',
   birthDate: '1992-06-05',
@@ -40,6 +42,13 @@ export function getCertificateId(params: CertificateSearchParams): string {
 export function formatDate(value: string): string {
   const [year, month, day] = value.split('-')
   return `${day}.${month}.${year}`
+}
+
+export function formatIssuedAt(value: string): string {
+  const timestamp = new Date(value)
+  const date = new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium', timeZone: 'Europe/Berlin' }).format(timestamp)
+  const time = new Intl.DateTimeFormat('de-DE', { timeStyle: 'short', timeZone: 'Europe/Berlin' }).format(timestamp)
+  return `${date} um ${time} Uhr`
 }
 
 export function validateVerificationInput(input: VerificationInput): InputErrors {

@@ -3,7 +3,7 @@
 import { CircleCheck, FileSearch, FileText, Info, SearchX, ShieldCheck, ShieldX } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { formatDate, type VerificationResult as Result } from '@/lib/certificates'
+import { formatDate, formatIssuedAt, type VerificationResult as Result } from '@/lib/certificates'
 
 export function VerificationStatus({ result }: { result: Result }) {
   if (result.status !== 'confirmed') return null
@@ -72,6 +72,7 @@ export function VerificationResult({ result }: { result: Result | null }) {
       <CardHeader>
         <div className="card-heading"><FileText className="size-5" aria-hidden="true" /><CardTitle><h3>Angaben zur Bescheinigung</h3></CardTitle></div>
         <CardDescription>Diese Bescheinigung wurde von Active Helper ausgestellt.</CardDescription>
+        <CardDescription>Ausgestellt am <time dateTime={certificate.issuedAt}>{formatIssuedAt(certificate.issuedAt)}</time>.</CardDescription>
       </CardHeader>
       <CardContent>
         <dl className="certificate-fields">{fields.map(([label, value]) => <div className="flex flex-col gap-2" key={label}><dt className="text-sm text-muted-foreground">{label}</dt><dd className="text-base font-medium break-words">{value}</dd></div>)}</dl>

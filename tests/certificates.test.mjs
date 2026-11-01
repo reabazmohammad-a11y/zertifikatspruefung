@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { demoExamples, getCertificateId, validateVerificationInput, verifyCertificate } from '../lib/certificates.ts'
+import { demoExamples, formatIssuedAt, getCertificateId, validateVerificationInput, verifyCertificate } from '../lib/certificates.ts'
 
 test('Ohne Linkparameter bleibt die ID leer', () => {
   assert.equal(getCertificateId({}), '')
@@ -29,6 +29,13 @@ test('Bestätigter Datensatz benötigt beide passenden Angaben', async () => {
   assert.equal(result.status, 'confirmed')
   assert.equal(result.certificate.firstName, 'Lena')
   assert.equal(result.certificate.courseType, 'Erste-Hilfe-Ausbildung')
+  assert.equal(result.certificate.issuedAt, '2026-08-14T14:32:00+02:00')
+  assert.equal(result.certificate.courseDate, '2026-08-13')
+})
+
+test('Ausstellungszeitpunkt wird mit deutscher Sommer- und Winterzeit dargestellt', () => {
+  assert.equal(formatIssuedAt('2026-08-14T12:32:00Z'), '14.08.2026 um 14:32 Uhr')
+  assert.equal(formatIssuedAt('2026-01-14T13:32:00Z'), '14.01.2026 um 14:32 Uhr')
 })
 
 test('Fehlerhaftes Geburtsdatum gibt keine Teilnehmerdaten oder ID-Gültigkeit preis', async () => {
