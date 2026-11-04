@@ -1,6 +1,55 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { demoExamples, formatIssuedAt, getCertificateId, validateVerificationInput, verifyCertificate, verifyQrPrototype } from '../lib/certificates.ts'
+import { demoExamples, formatBirthDateInput, maskBirthDateInput, parseBirthDateInput, formatIssuedAt, getCertificateId, validateVerificationInput, verifyCertificate, verifyQrPrototype } from '../lib/certificates.ts'
+
+test('Punkte erscheinen sofort nach Tag und Monat bei fortlaufender Zahleneingabe', () => {
+  let previous = ''
+  const expected = ['0', '05.', '05.0', '05.08.', '05.08.1', '05.08.19', '05.08.199', '05.08.1992']
+  for (const [index, digit] of [...'05081992'].entries()) {
+    const raw = previous + digit
+    const result = maskBirthDateInput(raw, previous, raw.length, 'insertText')
+    assert.deepEqual(result, { formatted: expected[index], cursor: expected[index].length })
+    previous = result.formatted
+  }
+  assert.equal(parseBirthDateInput(previous), '1992-08-05')
+})
+
+test('Löschen an automatischen Punkten bleibt möglich', () => {
+  assert.deepEqual(maskBirthDateInput('05', '05.', 2, 'deleteContentBackward'), { formatted: '0', cursor: 1 })
+  assert.deepEqual(maskBirthDateInput('05.08', '05.08.', 5, 'deleteContentBackward'), { formatted: '05.0', cursor: 4 })
+  assert.deepEqual(maskBirthDateInput('0508.1992', '1992-08-05', 2, 'deleteContentForward'), { formatted: '05.81.992', cursor: 2 })
+  assert.deepEqual(maskBirthDateInput('', '1992-08-05', 0, 'deleteContentBackward'), { formatted: '', cursor: 0 })
+})
+
+test('Einfügen und Korrekturen behalten Format und Cursorposition', () => {
+  for (const raw of ['05081992', '05.08.1992', '1992-08-05']) {
+    assert.deepEqual(maskBirthDateInput(raw, '', raw.length, 'insertFromPaste'), { formatted: '05.08.1992', cursor: 10 })
+  }
+  assert.deepEqual(maskBirthDateInput('05.09.1992', '1992-08-05', 5, 'insertText'), { formatted: '05.09.1992', cursor: 6 })
+  assert.deepEqual(maskBirthDateInput('05.a', '05.', 4, 'insertText'), { formatted: '05.', cursor: 3 })
+})
+
+test('Zahleneingabe und deutsches Datum werden ohne Zeitzonenwechsel umgewandelt', () => {
+  for (const [digits, german, iso] of [['05061992', '05.06.1992', '1992-06-05'], ['29022000', '29.02.2000', '2000-02-29'], ['23111985', '23.11.1985', '1985-11-23']]) {
+    assert.equal(parseBirthDateInput(digits), iso)
+    assert.equal(parseBirthDateInput(german), iso)
+    assert.equal(formatBirthDateInput(iso), german)
+  }
+})
+
+test('Leeren und Bearbeiten lassen unvollständige Eingaben unverändert', () => {
+  for (const value of ['', '0', '05', '0506', '0506199', '05.06.199', 'text']) {
+    assert.equal(parseBirthDateInput(value), value)
+    assert.equal(formatBirthDateInput(value), value)
+    if (value) assert.ok(validateVerificationInput({ ...demoExamples[0], birthDate: parseBirthDateInput(value) }).birthDate)
+  }
+})
+
+test('Ungültige numerische Datumsangaben werden nicht korrigiert oder akzeptiert', () => {
+  for (const value of ['30021992', '31041992', '01012099', '01011899', '29021993', '00121992']) {
+    assert.ok(validateVerificationInput({ ...demoExamples[0], birthDate: parseBirthDateInput(value) }).birthDate)
+  }
+})
 
 test('Ohne Linkparameter bleibt die ID leer', () => {
   assert.equal(getCertificateId({}), '')
