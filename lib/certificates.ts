@@ -48,6 +48,37 @@ export function formatBirthDateInput(value: string): string {
   return /^\d{4}-\d{2}-\d{2}$/.test(value) ? formatDate(value) : value
 }
 
+export function maskBirthDateInput(value: string, previousValue: string, cursor: number, inputType: string) {
+  let digits = formatBirthDateInput(value).replace(/\D/g, '').slice(0, 8)
+  let digitsBeforeCursor = Math.min(value.slice(0, cursor).replace(/\D/g, '').length, digits.length)
+  const previousDigits = formatBirthDateInput(previousValue).replace(/\D/g, '')
+  const deleting = inputType.startsWith('delete')
+
+  // Deleting an automatic separator must remove the adjacent digit, not trap the cursor.
+  if (deleting && digits === previousDigits) {
+    const index = inputType === 'deleteContentBackward' ? digitsBeforeCursor - 1 : digitsBeforeCursor
+    if (index >= 0 && index < digits.length) {
+      digits = digits.slice(0, index) + digits.slice(index + 1)
+      digitsBeforeCursor = Math.min(digitsBeforeCursor, index)
+    }
+  }
+
+  const formatted = digits.slice(0, 2)
+    + (digits.length >= 2 ? '.' : '')
+    + digits.slice(2, 4)
+    + (digits.length >= 4 ? '.' : '')
+    + digits.slice(4)
+  let position = 0
+  let count = 0
+  while (position < formatted.length && count < digitsBeforeCursor) {
+    if (/\d/.test(formatted[position])) count++
+    position++
+  }
+  if (!deleting && formatted[position] === '.') position++
+
+  return { formatted, cursor: position }
+}
+
 export function parseBirthDateInput(value: string): string {
   const match = /^(\d{2})(\d{2})(\d{4})$/.exec(value) ?? /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(value)
   return match ? `${match[3]}-${match[2]}-${match[1]}` : value

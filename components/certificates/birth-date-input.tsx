@@ -2,7 +2,7 @@
 
 import type { ComponentProps } from 'react'
 import { Input } from '@/components/ui/input'
-import { formatBirthDateInput, parseBirthDateInput } from '@/lib/certificates'
+import { formatBirthDateInput, maskBirthDateInput, parseBirthDateInput } from '@/lib/certificates'
 import { cn } from '@/lib/utils'
 
 type Props = Omit<ComponentProps<typeof Input>, 'value' | 'onChange' | 'type' | 'inputMode'> & {
@@ -26,7 +26,13 @@ export function BirthDateInput({ id, value, onValueChange, className, 'aria-desc
         maxLength={10}
         spellCheck={false}
         value={formatBirthDateInput(value)}
-        onChange={(event) => onValueChange(parseBirthDateInput(event.target.value))}
+        onChange={(event) => {
+          const input = event.currentTarget
+          const masked = maskBirthDateInput(input.value, value, input.selectionStart ?? input.value.length, (event.nativeEvent as InputEvent).inputType ?? '')
+          input.value = masked.formatted
+          input.setSelectionRange(masked.cursor, masked.cursor)
+          onValueChange(parseBirthDateInput(masked.formatted))
+        }}
         aria-describedby={[hintId, describedBy].filter(Boolean).join(' ')}
         className={cn('h-12 appearance-none', className)}
       />
