@@ -1,6 +1,28 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { demoExamples, formatIssuedAt, getCertificateId, validateVerificationInput, verifyCertificate, verifyQrPrototype } from '../lib/certificates.ts'
+import { demoExamples, formatBirthDateInput, parseBirthDateInput, formatIssuedAt, getCertificateId, validateVerificationInput, verifyCertificate, verifyQrPrototype } from '../lib/certificates.ts'
+
+test('Zahleneingabe und deutsches Datum werden ohne Zeitzonenwechsel umgewandelt', () => {
+  for (const [digits, german, iso] of [['05061992', '05.06.1992', '1992-06-05'], ['29022000', '29.02.2000', '2000-02-29'], ['23111985', '23.11.1985', '1985-11-23']]) {
+    assert.equal(parseBirthDateInput(digits), iso)
+    assert.equal(parseBirthDateInput(german), iso)
+    assert.equal(formatBirthDateInput(iso), german)
+  }
+})
+
+test('Leeren und Bearbeiten lassen unvollständige Eingaben unverändert', () => {
+  for (const value of ['', '0', '05', '0506', '0506199', '05.06.199', 'text']) {
+    assert.equal(parseBirthDateInput(value), value)
+    assert.equal(formatBirthDateInput(value), value)
+    if (value) assert.ok(validateVerificationInput({ ...demoExamples[0], birthDate: parseBirthDateInput(value) }).birthDate)
+  }
+})
+
+test('Ungültige numerische Datumsangaben werden nicht korrigiert oder akzeptiert', () => {
+  for (const value of ['30021992', '31041992', '01012099', '01011899', '29021993', '00121992']) {
+    assert.ok(validateVerificationInput({ ...demoExamples[0], birthDate: parseBirthDateInput(value) }).birthDate)
+  }
+})
 
 test('Ohne Linkparameter bleibt die ID leer', () => {
   assert.equal(getCertificateId({}), '')

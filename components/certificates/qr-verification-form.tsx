@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import { BirthDateInput } from './birth-date-input'
 import { demoExamples, validateVerificationInput, type InputErrors, type VerificationInput } from '@/lib/certificates'
 
 export function QrVerificationForm({ onVerify }: { onVerify: (input: VerificationInput) => void }) {
@@ -46,10 +47,10 @@ export function QrVerificationForm({ onVerify }: { onVerify: (input: Verificatio
           </Field>
           <Field data-invalid={Boolean(errors.birthDate)}>
             <FieldLabel htmlFor="qr-birth-date">Geburtsdatum <span className="required-mark" aria-hidden="true">*</span></FieldLabel>
-            <Input ref={birthDateRef} id="qr-birth-date" name="birthDate" type="date" lang="de" min="1900-01-01" value={birthDate} onChange={(event) => {
-              setBirthDate(event.target.value)
+            <BirthDateInput ref={birthDateRef} id="qr-birth-date" name="birthDate" value={birthDate} onValueChange={(value) => {
+              setBirthDate(value)
               setErrors({})
-            }} autoComplete="off" required aria-invalid={Boolean(errors.birthDate)} aria-describedby={errors.birthDate ? 'qr-birth-date-error' : undefined} className="h-12" />
+            }} required aria-invalid={Boolean(errors.birthDate)} aria-describedby={errors.birthDate ? 'qr-birth-date-error' : undefined} />
             {errors.birthDate && <FieldError id="qr-birth-date-error">{errors.birthDate}</FieldError>}
           </Field>
           <Button type="submit" size="lg" className="h-12">

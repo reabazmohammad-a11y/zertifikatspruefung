@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import type { InputErrors, VerificationInput } from '@/lib/certificates'
+import { BirthDateInput } from './birth-date-input'
 
 type Props = {
   input: VerificationInput
@@ -40,7 +41,7 @@ export function VerificationForm({ input, errors, pending, fromQr, onChange, onS
             </Field>
             <Field data-invalid={Boolean(errors.birthDate)} data-disabled={pending}>
               <FieldLabel htmlFor="birth-date">Geburtsdatum <span className="required-mark" aria-hidden="true">*</span></FieldLabel>
-              <Input id="birth-date" name="birthDate" type="date" lang="de" min="1900-01-01" value={input.birthDate} onChange={(event) => onChange('birthDate', event.target.value)} autoComplete="off" required disabled={pending} aria-invalid={Boolean(errors.birthDate)} aria-describedby={errors.birthDate ? 'birth-date-error' : undefined} />
+              <BirthDateInput id="birth-date" name="birthDate" value={input.birthDate} onValueChange={(value) => onChange('birthDate', value)} required disabled={pending} aria-invalid={Boolean(errors.birthDate)} aria-describedby={errors.birthDate ? 'birth-date-error' : undefined} />
               {errors.birthDate && <FieldError id="birth-date-error">{errors.birthDate}</FieldError>}
             </Field>
             <Button type="submit" size="lg" className="verify-button" disabled={pending}>
